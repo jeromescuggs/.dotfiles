@@ -1,0 +1,56 @@
+#!/bin/bash
+
+# ------------ global aliases from ~/dotfiles --------------------------------
+# try to keep this unedited if possible to maintain uniformity across desktops
+
+alias ag='sudo apt-get'
+alias agi='sudo apt-get install'
+alias search='apt search'
+alias refreshenv='source ~/.zshrc' 
+alias zshrc='vim ~/.zshrc'
+alias aliases='vim ~/.aliases'
+
+# look for a local alias file, and source it 
+
+if [ -f ~/.localiases ]; then
+    source ~/.localiases
+    fi 
+
+# since git has already been loaded at this point, this will add hub's options to the git commands 
+if [ -x "$(command -v hub)" ]; then
+#  >&2
+    alias git="hub"
+fi
+
+# the following is obsoleted by the 'tmux-256screen' terminfo file shipped with the ncurses-term pkg
+
+# if { [ ! -n "$TMUX" ] && [ "$TERM" != "jrmux-256color" ]; } then 
+#  alias tmux="export TERM=jrmux-256color && tmux"
+# fi
+
+# ------------ custom apps ---------------------------------------------------
+
+# creates a split window w/ preview pane on the left
+if [[ -x "$(command -v fzf)" ]]; then
+    alias fzf="fzf --ansi --preview-window right:70% --preview 'cfonts "fzf!!" -c blue,cyan  \
+    & file {} \
+    & bat --color=always {}'"
+    fi 
+
+if [[ -a /usr/local/bin/kb ]]; then 
+    alias kbl="kb list"
+    alias kbe="kb edit --id"
+    alias kba="kb add"
+    alias kbv="kb view --id"
+    alias kbd="kb delete --id"
+    alias kbg="kb grep"
+    alias kbt="kb list --tags"
+fi 
+# alias jrmux="export TERM=jrmux-256color && tmux"
+
+# alias sshc='rm ~/.ssh/known_hosts' //deprecated. jrm-src/sshc
+
+
+# handling the ls command: ~/.exa-ls checks for either exa or lsd (with lsd taking precedence) and falls back to standard ls if neither exist
+source $HOME/.exa-ls
+ 
