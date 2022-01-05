@@ -1,0 +1,32 @@
+# looks for ls++ if no cargo apps have been compiled, github trapd00r/ls--
+# if [[ -x "$(command -v ls++)" ]] && \
+#   [[ ! -x "$(command -v exa)" ]] && \
+#   [[ ! -x "$(command -v lsd)" ]]; then
+#    alias ls="ls++"
+# fi
+
+if [ "$(command -v exa)" ]; then
+    unalias -m 'll'
+    unalias -m 'l'
+    unalias -m 'la'
+    unalias -m 'ls'
+    alias ls='exa -G  --color auto -a -s type'
+    alias la='exa -G --color auto --icons -a -s type'
+    alias l='exa -l --color always --icons -a -s type'
+    alias ll='exa -l --color always --icons -a -s type'
+fi
+
+# TODO find a decent method to check for unicode/glyph support?
+
+# if [ -e $HOME/.cargo/bin/lsd ]
+#    then 
+#        alias ls="lsd"
+#        alias la="lsd -a" 
+#        alias l="lsd -l -a --date relative --blocks permission,name,date,user"
+#        alias ll="exa -G -x -a -h -l"
+#    fi 
+
+if [ -e $HOME/.cargo/bin/broot ]
+    then 
+        alias lll="br -s -d -p -h"
+    fi
