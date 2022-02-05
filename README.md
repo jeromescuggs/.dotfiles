@@ -27,6 +27,47 @@ I still recommend checking out my vimrc though! You'll need to get vim-plugged i
 
 The goal of my zshrc file through the years has been to make it as painless as possible to throw the exact same rc file on a variety of environments, so it trades a little heft (~7k) for **alot** of functionality. 
 
+### automatic eyecandy 
+
+The shellrc file checks for and installs a variety of useful eyecandy, such as my custom theme: 
+~~~
+if [[ $ZSH_THEME == "jerome" ]] && [[ ! -d "$ZSH/custom/themes/jerome-theme" ]]; then 
+  git clone https://github.com/jeromescuggs/jerome-theme $ZSH/custom/themes/jerome-theme
+  ln -sf $ZSH/custom/themes/jerome-theme/jerome.zsh-theme $ZSH/custom/themes
+fi
+~~~
+
+Base16 terminal themes are also supported, but disabled by default: 
+~~~
+# to use this, uncomment the following: 
+#
+# export USE_BASE16
+#
+# check for base16 and set up if USE_BASE16 is set to "true"
+
+if [ -v $USE_BASE16 ] && [ ! -d "$HOME/.config/base16-shell/" ]; then
+     git clone https://github.com/chriskempson/base16-shell.git ~/.config/base16-shell
+   fi
+
+if [ -v $USE_BASE16 ]; then
+  BASE16_SHELL="$HOME/.config/base16-shell/"
+  [ -n "$PS1" ] && \
+  [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
+  eval "$("$BASE16_SHELL/profile_helper.sh")"
+fi
+~~~
+
+And probably the most useful: ZSH syntax highlighting! This is probably the one oh-my-zsh plugin that I cannot live without. 
+
+~~~
+ if [ -d "$HOME/.local" ] && [ -d "$HOME/.local/zsh-syntax-highlighting" ]; then
+    source $HOME/.local/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+  else 
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $HOME/.local/zsh-syntax-highlighting &&
+    source $HOME/.local/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+ fi
+~~~
+
 ### conditional env setup 
 
 The rc file checks for a variety of common developer tools using conditionals. For example: 
