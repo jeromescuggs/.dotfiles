@@ -29,18 +29,24 @@ ZSH_THEME="jerome"
 COMPLETION_WAITING_DOTS="true"
 
 # base16 shell colorthemes: type "base16" in prompt and mash dat mf tab button
-BASE16_SHELL="$HOME/.config/base16-shell/"
-[ -n "$PS1" ] && \
-    [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
-         eval "$("$BASE16_SHELL/profile_helper.sh")"
+# to use this, uncomment the following: 
+#
+# export USE_BASE16
+#
+# check for base16 and set up if USE_BASE16 is set to "true"
 
-# check to see if the base16-shell default installation is present, and grab it if it isn't
-
- if [ -d "$HOME/.config/base16-shell/" ]; then
-    export BASE16_INSTALLED="1"
- else 
+if [ -v $USE_BASE16 ] && [ ! -d "$HOME/.config/base16-shell/" ]; then
      git clone https://github.com/chriskempson/base16-shell.git ~/.config/base16-shell
    fi
+
+if [ -v $USE_BASE16 ]; then
+  BASE16_SHELL="$HOME/.config/base16-shell/"
+  [ -n "$PS1" ] && \
+  [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
+  eval "$("$BASE16_SHELL/profile_helper.sh")"
+fi 
+
+# check to see if the base16-shell default installation is present, and grab it if it isn't
 
 # Uncomment the following when working with large VCS (git etc) repo's, and experience lag when moving thru directories
 # DISABLE_UNTRACKED_FILES_DIRTY="true"
@@ -102,10 +108,10 @@ if [[ ! -d "$HOME/.local" ]]; then
 fi 
 
 # Rust/cargo PATH
-export PATH="$PATH:/home/jerome/.cargo/bin"
+export PATH="$PATH:$HOME/.cargo/bin"
 
 # pip path
-export PATH="$PATH:/home/jerome/.local/bin"
+export PATH="$PATH:$HOME/.local/bin"
 
 # Go path, not nearly as important now that GO111MODULE is a thing
 # if [[ -x "$(command -v go)" ]]; then
@@ -131,8 +137,9 @@ if [[ -d $HOME/.rbenv ]]; then
   eval "$(rbenv init -)"
 fi 
 
-# toolchains
-export PATH="$PATH:$(find . /opt -maxdepth 1 -user jerome -type d -name '*gcc*')"
+# TOOLCHAINS
+# this checks the /opt dir for any gcc toolchains
+export PATH="$PATH:$(find . /opt -maxdepth 1 -user $USER -type d -name '*gcc*')"
 
 # this variable can be tweaked to get a variety of things to play nice. default is set to 24bit to 
 # make the best of the pastel utility
@@ -158,7 +165,7 @@ fi
 
 # check for deno and set up
 if [[ -d $HOME/.deno ]]; then 
-    export DENO_INSTALL="/home/jerome/.deno"
+    export DENO_INSTALL="$HOME/.deno"
     export PATH="$DENO_INSTALL/bin:$PATH"
 fi 
 
@@ -193,7 +200,10 @@ then
     export TERM=tmux-256color
 fi
 
-source ~/.aliases
+# ALIASES 
+if [ -e $HOME/.aliases ]; then 
+  source ~/.aliases
+fi 
 
 # check for zsh syntax highlighting and install if absent
 
