@@ -1,3 +1,4 @@
+# ==== BASIC SETUP, EDITING IS LIKELY NOT NECESSARY ===
 # set omz install path, set path for rustup completions
 export ZSH="/home/$USER/.oh-my-zsh"
 fpath+=~/.zfunc
@@ -12,7 +13,8 @@ function _pip_completion {
              PIP_AUTO_COMPLETE=1 $words[1] ) )
 }
 compctl -K _pip_completion pip
-# pip zsh completion end
+# ==== END BASIC SETUP
+
 
 # if starship is installed, setting this flag to "true"
 # will override all themes except 'zeta'. 
@@ -22,21 +24,6 @@ RUN_STARSHIP="false"
 #ZSH_THEME="zeta"
 ZSH_THEME="jerome"
 #ZSH_THEME="dieter"
-
-# TODO condition this on finding a dietpi-exclusive executable 
-if [[ -d /DietPi ]]; then
-export PATH=/usr/bin:/bin:/usr/sbin:/sbin:$PATH
-/DietPi/dietpi/dietpi-login
-. /DietPi/dietpi/func/dietpi-globals 
-fi 
-
-if [[ -d $HOME/.deno ]]; then 
-    export DENO_INSTALL="/home/jerome/.deno"
-    export PATH="$DENO_INSTALL/bin:$PATH"
-fi 
-
-# uncomment the following code when using liquidprompt - must be installed first!
-# [[ $- = *i* ]] && source ~/liquidprompt/liquidprompt
 
 # purely aesthetic, comment the following out if troubleshooting, but it shouldn't cause any issues
 COMPLETION_WAITING_DOTS="true"
@@ -101,9 +88,6 @@ if [[ "$(</proc/version)" == *Microsoft* ]] 2>/dev/null; then
   export DISPLAY=localhost:0
   export NO_AT_BRIDGE=1
   export LIBGL_ALWAYS_INDIRECT=1
-#  sudo /usr/local/bin/clean-tmp-su
-# else
-# export WSL=0
 fi
 
 # WSL compatibility
@@ -113,7 +97,6 @@ export LIBGL_ALWAYS_INDIRECT
 fi 
 
 # check for a .local dir in $HOME and make one if absent 
-
 if [[ ! -d "$HOME/.local" ]]; then
   mkdir $HOME/.local 
 fi 
@@ -140,10 +123,6 @@ fi
 if [[ -a /usr/local/bin/notes ]]; then
   export NOTES_DIRECTORY="$HOME/.notes"
 fi 
-
-if [[ -d $HOME/balena-cli ]]; then
-    export PATH="$PATH:/home/$USER/balena-cli"
-fi
 
 # RVM - define PATH and source as a function 
 if [[ -d $HOME/.rvm ]]; then
@@ -174,23 +153,34 @@ export COLORTERM=24bit
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
+# check if running on a dietpi box and setup 
+# TODO condition this on finding a dietpi-exclusive executable 
+if [[ -d /DietPi ]]; then
+export PATH=/usr/bin:/bin:/usr/sbin:/sbin:$PATH
+/DietPi/dietpi/dietpi-login
+. /DietPi/dietpi/func/dietpi-globals 
+fi 
 
+# check for deno and set up
+if [[ -d $HOME/.deno ]]; then 
+    export DENO_INSTALL="/home/jerome/.deno"
+    export PATH="$DENO_INSTALL/bin:$PATH"
+fi 
+
+
+
+# check for brew and set up
 if [[ -x "$(command -v brew)" ]]; then
     eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
 fi
 
+# check for keychain and set up
 if [[ -x "$(command -v keychain)" ]]; then
-    eval `keychain --eval --agents ssh,gpg id_rsa 04DF830B7F2373C7`
+    eval `keychain --eval --agents ssh,gpg id_rsa`
 fi
 
-# eyecandy: the following defines colorschemes for the 'ls' command and its relatives 
-# depending on things, calling one, both, one before the other, etc. can lead to different blends of colors, so i'm leaving it all below
+# check for vivid and set up LS_COLORS
 
-export LS_COLORS="$(vivid generate snazzy)"
-
-# eval $(dircolors -b $HOME/.dircolors)
-
-# eval $(dircolors -b $HOME/.dircolors)
  if [ -n "$LS_COLORS" ]; then
        zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
  fi
@@ -199,9 +189,7 @@ export LS_COLORS="$(vivid generate snazzy)"
     export LS_COLORS="$(vivid generate snazzy)"
  fi 
 
-# eval $(TERM=xterm-256color dircolors ~/.dircolors)
-
-# invoke tmux requirements 
+# check for tmux requirements and set up
 if 
   [ -z $TMUX ] 
 then
@@ -210,10 +198,9 @@ then
     export TERM=tmux-256color
 fi
 
-# banner: the following is what pops up upon initial login
-# cfonts jerome -c cyan,candy -s 
-
 source ~/.aliases
+
+# check for zsh syntax highlighting and install if absent
 
  if [ -d "$HOME/.local" ] && [ -d "$HOME/.local/zsh-syntax-highlighting" ]; then
     source $HOME/.local/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
@@ -222,31 +209,28 @@ source ~/.aliases
     source $HOME/.local/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
  fi
 
-
-
-# initialize zsh-syntax-highlighting
-source /home/$USER/.dotfiles/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 
-
 # TODO: check for starship, if true, execute: 
 if [[ $RUN_STARSHIP == "true" ]] && [[ -f $HOME/.cargo/bin/starship ]] && [[ $ZSH_THEME != "zeta" ]]; then
     eval "$(starship init zsh)"
 fi 
-# export TERM="xterm-256color"
 
 compinit
 
+# check for broot and set up
 if [[ -f $HOME/.cargo/bin/broot ]]; then
     source /home/jerome/.config/broot/launcher/bash/br
 fi 
 
+# check for resh and set up
 if [[ -d $HOME/.resh ]]; then
     [ -f ~/.resh/shellrc ] && source ~/.resh/shellrc
 fi 
 
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+# THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="/home/jerome/.sdkman"
 [[ -s "/home/jerome/.sdkman/bin/sdkman-init.sh" ]] && source "/home/jerome/.sdkman/bin/sdkman-init.sh"
 
+# check for nvm and set up
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
