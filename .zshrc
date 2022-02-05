@@ -58,18 +58,18 @@ fi
 
 # Standard plugins can be found in ~/.oh-my-zsh/plugins/*
 
-if [[ -x "$(command -v keychain)" ]]; then
+# if [[ -x "$(command -v keychain)" ]]; then
 plugins=(
         zsh-256color
         sudo	
         )
-else
-plugins=(
-        zsh-256color
-        sudo
-		ssh-agent
-        )
-fi
+# else
+# plugins=(
+        # zsh-256color
+        # sudo
+		# ssh-agent
+        # )
+# fi
 
 # other popular plugins:
 # git, debian, ubuntu, ssh-agent, gpg-agent, tmux
