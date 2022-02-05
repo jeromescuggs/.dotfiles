@@ -22,8 +22,8 @@ RUN_STARSHIP="false"
 
 # jerome-theme can be found at github.com/jeromescuggs/jerome-theme
 #ZSH_THEME="zeta"
-ZSH_THEME="jerome"
-# ZSH_THEME="dieter"
+# ZSH_THEME="jerome"
+ZSH_THEME="dieter"
 
 if [[ $ZSH_THEME == "jerome" ]] && [[ ! -d "$ZSH/custom/themes/jerome-theme" ]]; then 
   git clone https://github.com/jeromescuggs/jerome-theme $ZSH/custom/themes/jerome-theme
