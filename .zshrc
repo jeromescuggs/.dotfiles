@@ -114,11 +114,6 @@ if [[ -d /usr/local/go/bin ]]; then
     export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
 fi
 
-# personal bin
-if [[ -d $HOME/.jrmbin ]]; then
-    export PATH="$PATH:/home/$USER/.jrmbin"
-fi
-
 # notes dir
 if [[ -a /usr/local/bin/notes ]]; then
   export NOTES_DIRECTORY="$HOME/.notes"
