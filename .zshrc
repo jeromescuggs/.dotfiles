@@ -223,7 +223,7 @@ compinit
 
 # check for broot and set up
 if [[ -f $HOME/.cargo/bin/broot ]]; then
-    source /home/jerome/.config/broot/launcher/bash/br
+    source $HOME/.config/broot/launcher/bash/br
 fi 
 
 # check for resh and set up
@@ -232,8 +232,8 @@ if [[ -d $HOME/.resh ]]; then
 fi 
 
 # THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="/home/jerome/.sdkman"
-[[ -s "/home/jerome/.sdkman/bin/sdkman-init.sh" ]] && source "/home/jerome/.sdkman/bin/sdkman-init.sh"
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 
 # check for nvm and set up
 export NVM_DIR="$HOME/.nvm"
