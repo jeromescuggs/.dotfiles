@@ -25,9 +25,9 @@ RUN_STARSHIP="false"
 ZSH_THEME="jerome"
 # ZSH_THEME="dieter"
 
-if [[ $ZSH_THEME == "jerome" ]] && [[ ! -d "$ZSH/custom/theme/jerome-theme" ]]; then 
-  git clone https://github.com/jeromescuggs/jerome-theme $ZSH/custom/theme/jerome-theme
-  ln -sf $ZSH/custom/theme/jerome-theme/jerome.zsh-theme $ZSH/custom/theme
+if [[ $ZSH_THEME == "jerome" ]] && [[ ! -d "$ZSH/custom/themes/jerome-theme" ]]; then 
+  git clone https://github.com/jeromescuggs/jerome-theme $ZSH/custom/themes/jerome-theme
+  ln -sf $ZSH/custom/themes/jerome-theme/jerome.zsh-theme $ZSH/custom/themes
 fi 
 
 # purely aesthetic, comment the following out if troubleshooting, but it shouldn't cause any issues
