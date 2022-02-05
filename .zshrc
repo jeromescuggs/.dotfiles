@@ -16,14 +16,19 @@ compctl -K _pip_completion pip
 # ==== END BASIC SETUP
 
 
-# if starship is installed, setting this flag to "true"
-# will override all themes except 'zeta'. 
-# this saves a trip to the bottom of this rc file to manually change it.
+# if starship is installed, setting this flag to "true", it will override all
+# themes except 'zeta'. this saves a trip to the bottom of this rc file to manually change it.
 RUN_STARSHIP="false"
+
 # jerome-theme can be found at github.com/jeromescuggs/jerome-theme
 #ZSH_THEME="zeta"
 ZSH_THEME="jerome"
-#ZSH_THEME="dieter"
+# ZSH_THEME="dieter"
+
+if [[ $ZSH_THEME == "jerome" ]] && [[ ! -d "$ZSH/custom/theme/jerome-theme" ]]; then 
+  git clone https://github.com/jeromescuggs/jerome-theme $ZSH/custom/theme/jerome-theme
+  ln -sf $ZSH/custom/theme/jerome-theme/jerome.zsh-theme $ZSH/custom/theme
+fi 
 
 # purely aesthetic, comment the following out if troubleshooting, but it shouldn't cause any issues
 COMPLETION_WAITING_DOTS="true"
