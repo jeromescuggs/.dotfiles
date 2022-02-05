@@ -13,6 +13,16 @@ Well, it's about time I got a grip on my personal dotfiles folder, which has onl
 
 # features
 
+## sweet vim setup (WIP)
+
+So, the files are in this repo but there is no sort of setup. I was planning on making one, but since starting this repo I have made a large change in how i roll my vim configs, now that i'm getting more familiar with neovim. 
+
+Right now, my neovim `init.vim` basically tells neovim to look at `~/.vim/vimrc`, and then neovim more or less runs like vim. 
+
+I'm still sort of wrapping my head around neovim's Lua scripting, and one thing I have realized is that I'm going to have to get used to the way neovim handles configurations and plugins, which means I will likely have to put all of this on hold. 
+
+I still recommend checking out my vimrc though! You'll need to get vim-plugged installed, and then you can copy `vimrc` to `$HOME/.vim`. Run vim, ignore any errors that pop up immediately, and run `:PlugInstall` to automatically install the required plugins. Exit and reopen vim and voila!
+
 ## custom .zshrc **REQUIRES OH-MY-ZSH!**
 
 The goal of my zshrc file through the years has been to make it as painless as possible to throw the exact same rc file on a variety of environments, so it trades a little heft (~7k) for **alot** of functionality. 
